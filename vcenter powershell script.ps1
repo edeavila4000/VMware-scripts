@@ -25,11 +25,14 @@ foreach($vmHost in $hosts){
 $allhosts | Select HostName, MemMax, MemAvg, MemMin, CPUMax, CPUAvg, CPUMin | Export-Csv "Hosts.csv" -noTypeInformation
 
 foreach($vm in $vms){
-  $vmstat = "" | Select VmName, PowerState, NumCPUs, MemoryGB, MemMax, MemAvg, MemMin, CPUMax, CPUAvg, CPUMin
+  $vmstat = "" | Select VmName, PowerState, NumCPUs, MemoryGB, HarddiskGB, MemMax, MemAvg, MemMin, CPUMax, CPUAvg, CPUMin
   $vmstat.VmName = $vm.name
   $vmstat.Powerstate = $vm.powerstate
   $vmstat.NumCPUs = $vm.NumCPU
   $vmstat.MemoryGB = $vm.MemoryGB
+
+  $vmstat.HarddiskGB = (Get-HardDisk -VM $vm | Measure-Object -Sum CapacityGB).Sum.ToString("##.##")
+
   $statcpu = Get-Stat -Entity ($vm)-start (get-date).AddDays(-7) -Finish (Get-Date)-MaxSamples 10 -stat "cpu.usage.average"
   $statmem = Get-Stat -Entity ($vm)-start (get-date).AddDays(-7) -Finish (Get-Date)-MaxSamples 10 -stat "mem.usage.average"
 
@@ -44,4 +47,4 @@ foreach($vm in $vms){
   $vmstat.MemMin = $mem.Minimum.ToString("##.##")
   $allvms += $vmstat
 }
-$allvms | Select VmName, PowerState, NumCPUs, MemoryGB, MemMax, MemAvg, MemMin, CPUMax, CPUAvg, CPUMin | Export-Csv "VMs.csv" -noTypeInformation
+$allvms | Select VmName, PowerState, NumCPUs, MemoryGB, HarddiskGB, MemMax, MemAvg, MemMin, CPUMax, CPUAvg, CPUMin | Export-Csv "VMs10.csv" -noTypeInformation
