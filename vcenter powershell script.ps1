@@ -25,13 +25,15 @@ foreach($vmHost in $hosts){
 $allhosts | Select HostName, MemMax, MemAvg, MemMin, CPUMax, CPUAvg, CPUMin | Export-Csv "Hosts.csv" -noTypeInformation
 
 foreach($vm in $vms){
-  $vmstat = "" | Select VmName, PowerState, NumCPUs, MemoryGB, UsedSpaceGB, ProvisionedSpaceGB, HarddiskGB, MemMax, MemAvg, MemMin, CPUMax, CPUAvg, CPUMin
+  $vmstat = "" | Select VmName, PowerState, GuestId, VMHost, NumCPUs, MemoryGB, UsedSpaceGB, ProvisionedSpaceGB, HarddiskGB, MemMax, MemAvg, MemMin, CPUMax, CPUAvg, CPUMin
   $vmstat.VmName = $vm.name
   $vmstat.Powerstate = $vm.powerstate
+  $vmstat.GuestId = $vm.GuestId
+  $vmstat.VMHost = $vm.VMHost
   $vmstat.NumCPUs = $vm.NumCPU
   $vmstat.MemoryGB = $vm.MemoryGB
-  $vmstat.UsedSpaceGB = $vm.UsedSpaceGB
-  $vmstat.ProvisionedSpaceGB = $vm.ProvisionedSpaceGB
+  $vmstat.UsedSpaceGB = $vm.UsedSpaceGB.ToString("##.##)")
+  $vmstat.ProvisionedSpaceGB = $vm.ProvisionedSpaceGB.ToString("##.##")
 
   $vmstat.HarddiskGB = (Get-HardDisk -VM $vm | Measure-Object -Sum CapacityGB).Sum.ToString("##.##")
 
@@ -49,4 +51,4 @@ foreach($vm in $vms){
   $vmstat.MemMin = $mem.Minimum.ToString("##.##")
   $allvms += $vmstat
 }
-$allvms | Select VmName, PowerState, NumCPUs, MemoryGB, UsedSpaceGB, ProvisionedSpaceGB, HarddiskGB, MemMax, MemAvg, MemMin, CPUMax, CPUAvg, CPUMin | Export-Csv "VMs10.csv" -noTypeInformation
+$allvms | Select VmName, PowerState, GuestId, VMHost, NumCPUs, MemoryGB, UsedSpaceGB, ProvisionedSpaceGB, HarddiskGB, MemMax, MemAvg, MemMin, CPUMax, CPUAvg, CPUMin | Export-Csv "VMs10.csv" -noTypeInformation
