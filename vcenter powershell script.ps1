@@ -32,7 +32,7 @@ foreach($vm in $vms){
   $vmstat.VMHost = $vm.VMHost
   $vmstat.NumCPUs = $vm.NumCPU
   $vmstat.MemoryGB = $vm.MemoryGB
-  $vmstat.UsedSpaceGB = $vm.UsedSpaceGB.ToString("##.##)")
+  $vmstat.UsedSpaceGB = $vm.UsedSpaceGB.ToString("##.##")
   $vmstat.ProvisionedSpaceGB = $vm.ProvisionedSpaceGB.ToString("##.##")
 
   $vmstat.HarddiskGB = (Get-HardDisk -VM $vm | Measure-Object -Sum CapacityGB).Sum.ToString("##.##")
