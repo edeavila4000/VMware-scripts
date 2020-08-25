@@ -1,4 +1,4 @@
-#Connect-VIServer <server> -User user -Password 
+Connect-VIServer <server> -User user -Password 
 $allvms = @()
 $allhosts = @()
 $hosts = Get-VMHost
