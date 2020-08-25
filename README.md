@@ -7,6 +7,10 @@ Requires VMware PowerCLI which you can download here:
 
 https://www.powershellgallery.com/packages/VMware.PowerCLI/12.0.0.15947286
 
+VMware Cmdlet Reference:
+
+https://code.vmware.com/docs/11794/cmdlet-reference
+
 
 Click on Go to File to view the code.
 
