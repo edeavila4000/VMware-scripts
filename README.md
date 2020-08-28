@@ -12,5 +12,3 @@ VMware Cmdlet Reference:
 https://code.vmware.com/docs/11794/cmdlet-reference
 
 
-Click on Go to File to view the code.
-
